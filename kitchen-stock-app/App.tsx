@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import {SText} from "./src/nativewindTypes";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <SText className="font-bold">Open up App.js to start working on your app!</SText>
       <StatusBar style="auto" />
     </View>
   );
