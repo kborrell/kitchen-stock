@@ -1,7 +1,19 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true
+    },
+    format: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+    }
 })
 
 productSchema.set('toJSON', {

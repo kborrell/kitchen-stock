@@ -2,6 +2,7 @@ import express, {Express} from "express";
 import cors from "cors";
 import morgan from "morgan";
 import {loadProductsService} from "./apis/productsService";
+import {loadCategoriesService} from "./apis/categoriesService";
 
 const App = class {
 
@@ -21,6 +22,7 @@ const App = class {
         })
 
         loadProductsService(this.expressApp)
+        loadCategoriesService(this.expressApp)
 
 // @ts-ignore
         const unknownEndpoint = (request, response) => {
@@ -35,6 +37,8 @@ const App = class {
 
             if (error.name === 'CastError') {
                 return response.status(400).send({ error: 'malformed id'})
+            } else if (error.name === 'ValidationError') {
+                return response.status(400).json({error: error.message})
             }
 
             next(error)
