@@ -4,12 +4,12 @@ import Category from "../models/category";
 
 export const loadProductsService = (app : Express) => {
     app.get('/api/products', async (_, response) => {
-        const products = await Product.find({})
+        const products = await Product.find({}).populate('category')
         response.json(products)
     })
 
     app.get('/api/products/:id', async (request, response) => {
-        const product = await Product.findById(request.params.id)
+        const product = await Product.findById(request.params.id).populate('category')
 
         if (product) {
             response.json(product)
