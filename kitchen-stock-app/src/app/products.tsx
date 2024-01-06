@@ -1,5 +1,6 @@
 import {FlatList, Text, View} from "react-native";
 import {useGetProductsQuery} from "../services/api";
+import ProductListItem from "../components/ProductListItem";
 
 export default function Page() {
     const { data, error, isLoading } = useGetProductsQuery()
@@ -11,7 +12,7 @@ export default function Page() {
         <View>
             <FlatList
                 data={data}
-                renderItem={({item}) => <Text>{item.name}</Text>}
+                renderItem={({item}) => <ProductListItem item={item} />}
             />
         </View>
     )
