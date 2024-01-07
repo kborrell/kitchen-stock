@@ -1,21 +1,22 @@
-import {Link, Tabs} from "expo-router";
+import {Tabs} from "expo-router";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 const NavigationBar = () => {
     return (
         <Tabs
-            initialRouteName="home"
+            initialRouteName="pantry"
             sceneContainerStyle={{
                 borderTopWidth: 1,
                 borderLeftWidth: 1,
                 borderRightWidth: 1,
                 borderRadius: 20,
                 borderColor: "#d1d1d1",
-                padding: 10
+                padding: 20,
+                backgroundColor: "#ffffff"
             }}
             screenOptions={{
-                headerShown: false
+                headerShown: false,
             }}
         >
             <Tabs.Screen name="home" options={

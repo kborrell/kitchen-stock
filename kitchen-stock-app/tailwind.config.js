@@ -7,7 +7,8 @@ module.exports = {
       fontFamily: {
         'theme-regular': ['Poppins_400Regular'],
         'theme-medium': ['Poppins_500Medium'],
-        'theme-light': ['Poppins_300Light']
+        'theme-light': ['Poppins_300Light'],
+        'theme-header': ['Roboto_700Bold']
       }
     },
   },
