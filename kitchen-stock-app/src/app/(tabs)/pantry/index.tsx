@@ -1,6 +1,7 @@
 import {FlatList, SafeAreaView, Text} from "react-native";
 import {useGetProductsQuery} from "../../../services/api";
 import ProductListItem from "../../../components/ProductListItem";
+import {SText, SView} from "../../../nativewindTypes";
 
 export default function Page() {
     const { data, error, isLoading } = useGetProductsQuery()
@@ -10,7 +11,9 @@ export default function Page() {
 
     return (
         <SafeAreaView>
-
+            <SView>
+                <SText></SText>
+            </SView>
             <FlatList
                 data={data}
                 renderItem={({item}) => <ProductListItem item={item} />}

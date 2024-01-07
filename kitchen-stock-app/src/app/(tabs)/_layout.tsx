@@ -12,11 +12,11 @@ NativeWindStyleSheet.setOutput({
 
 export default function Layout() {
     return (
-        <Provider store={store}>
+        <>
             <SafeAreaView>
                 <Header />
             </SafeAreaView>
             <NavigationBar />
-        </Provider>
+        </>
     );
 }

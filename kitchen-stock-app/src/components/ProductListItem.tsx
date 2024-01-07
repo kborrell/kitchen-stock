@@ -1,8 +1,8 @@
-import {Text} from "react-native";
+import {SText} from "../nativewindTypes";
 
 const ProductListItem = ({ item }) => {
     return (
-        <Text>{item.name}</Text>
+        <SText className="font-theme-regular">{item.name}</SText>
     )
 }
 
