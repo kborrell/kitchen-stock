@@ -10,6 +10,7 @@ export default function Page() {
 
     return (
         <SafeAreaView>
+
             <FlatList
                 data={data}
                 renderItem={({item}) => <ProductListItem item={item} />}

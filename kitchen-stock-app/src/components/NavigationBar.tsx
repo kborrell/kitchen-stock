@@ -4,9 +4,20 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 const NavigationBar = () => {
     return (
-        <Tabs initialRouteName="home" screenOptions={{
-            headerShown: false
-        }}>
+        <Tabs
+            initialRouteName="home"
+            sceneContainerStyle={{
+                borderTopWidth: 1,
+                borderLeftWidth: 1,
+                borderRightWidth: 1,
+                borderRadius: 20,
+                borderColor: "#d1d1d1",
+                padding: 10
+            }}
+            screenOptions={{
+                headerShown: false
+            }}
+        >
             <Tabs.Screen name="home" options={
                 {
                     tabBarLabel: "Inici",
