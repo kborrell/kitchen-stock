@@ -4,7 +4,7 @@ import {Text} from "react-native";
 export default function Page() {
     return (
         <>
-            <Link href="/createProduct">Nou Producte</Link>
+            <Link href="/(tabs)/pantry/createProduct">Nou Producte</Link>
         </>
     )
 }

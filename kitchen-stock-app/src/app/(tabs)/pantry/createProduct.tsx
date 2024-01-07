@@ -1,8 +1,8 @@
 import {Formik} from "formik";
-import CreateProductForm from "../components/CreateProductForm";
+import CreateProductForm from "../../../components/CreateProductForm";
 import * as yup from 'yup';
 import {router} from "expo-router";
-import {useCreateProductMutation} from "../services/api";
+import {useCreateProductMutation} from "../../../services/api";
 
 export default function Page() {
     const [createProduct, result] = useCreateProductMutation()

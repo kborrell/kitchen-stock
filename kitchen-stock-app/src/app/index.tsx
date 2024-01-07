@@ -1,11 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import {Button, Text, View} from 'react-native';
+import {Redirect} from "expo-router";
 
-export default function Page() {
+const StartPage = () => {
     return (
-        <View>
-            <Text>Welcome!</Text>
-            <StatusBar style="auto" />
-        </View>
-    );
+        <Redirect href="/home" />
+    )
 }
+
+export default StartPage

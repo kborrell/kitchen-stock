@@ -1,16 +1,16 @@
 import {Stack} from "expo-router";
 
-const StackLayout = () => {
+const PantryLayout = () => {
     return (
         <Stack>
             <Stack.Screen
-                name="(tabs)"
+                name="index"
                 options={{
-                  headerShown: false
+                    headerShown: false
                 }}
             />
         </Stack>
     )
 }
 
-export default StackLayout
+export default PantryLayout
