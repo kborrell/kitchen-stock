@@ -1,6 +1,6 @@
 import {Pressable, Text} from "react-native";
-import FormikTextInput from "./FormikTextInput";
-import FormikPicker from "./FormikPicker";
+import FormikTextInput from "./elements/forms/FormikTextInput";
+import FormikPicker from "./elements/forms/FormikPicker";
 import {useGetCategoriesQuery} from "../services/api";
 
 const CreateProductForm = ({ onSubmit }) => {

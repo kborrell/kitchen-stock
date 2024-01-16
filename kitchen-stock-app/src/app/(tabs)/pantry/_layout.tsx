@@ -6,6 +6,12 @@ const PantryLayout = () => {
             <Stack.Screen
                 name="index"
                 options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="[productId]"
+                options={{
                     headerShown: false
                 }}
             />

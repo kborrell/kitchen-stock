@@ -1,5 +1,5 @@
 import { useField } from 'formik';
-import {SText} from "../nativewindTypes";
+import {SText} from "../../../nativewindTypes";
 import RNPickerSelect from 'react-native-picker-select';
 import {useEffect} from "react";
 

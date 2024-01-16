@@ -1,9 +1,9 @@
 import {FlatList, SafeAreaView, Text} from "react-native";
 import {useGetProductsQuery} from "../../../services/api";
-import ProductListItem from "../../../components/ProductListItem";
+import ProductListItem from "../../../components/pantry/ProductListItem";
 import {SText, SView} from "../../../nativewindTypes";
-import Button from "../../../components/Button";
-import IconButton from "../../../components/IconButton";
+import Button from "../../../components/elements/Button";
+import IconButton from "../../../components/elements/IconButton";
 
 export default function Page() {
     const { data, error, isLoading } = useGetProductsQuery()

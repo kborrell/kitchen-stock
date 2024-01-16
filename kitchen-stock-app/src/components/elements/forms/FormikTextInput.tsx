@@ -1,6 +1,6 @@
 import { useField } from 'formik';
 import {Text, TextInput} from "react-native";
-import {SText} from "../nativewindTypes";
+import {SText} from "../../../nativewindTypes";
 
 const FormikTextInput = ({ name, ...props }) => {
     const [field, meta, helpers] = useField(name);
