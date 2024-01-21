@@ -21,35 +21,33 @@ export default function Page() {
 
     return (
         <SafeAreaView className="bg-white">
-            <SView>
-                <SText className="font-theme-light text-3xl">El rebost</SText>
-            </SView>
-            <SView className="flex-grow flex-row">
-                <Button buttonStyle={{ flex: 1, margin: 10 }} onPressHandler={addProductHandler}>Add Product</Button>
-                <Button buttonStyle={{ flex: 1, margin: 10  }} onPressHandler={addStockHandler}>Add Stock</Button>
-            </SView>
-            <SView className="my-2">
-                <SText className="font-theme-header text-xl">Caduquen aviat</SText>
-                <SText> Coming soon... </SText>
-            </SView>
-            <SView className="my-2">
-                <SText className="font-theme-header text-xl">Oberts</SText>
-                <SText> Coming soon... </SText>
-            </SView>
-            <SView className="my-2">
-                <SView className="flex-row content-center, justify-between">
-                    <SView>
-                        <SText className="font-theme-header text-xl">Productes</SText>
-                    </SView>
-                    <SView className="flex-row">
-                        <IconButton size={19} buttonStyle={{ margin: 5 }} onPressHandler={() => console.log("edit")} name="edit" />
-                        <IconButton size={19} buttonStyle={{ margin: 5 }} onPressHandler={() => console.log("remove")} name="delete" />
-                    </SView>
+            <SView className="p-3">
+                <SView>
+                    <SText className="font-theme-light text-3xl">El rebost</SText>
                 </SView>
-                <FlatList
-                    data={data}
-                    renderItem={({item}) => <ProductListItem item={item} />}
-                />
+                <SView className="flex-grow flex-row">
+                    <Button buttonStyle={{ flex: 1, margin: 10 }} onPressHandler={addProductHandler}>Afegeix Producte</Button>
+                    <Button buttonStyle={{ flex: 1, margin: 10  }} onPressHandler={addStockHandler}>Afegeix Stock</Button>
+                </SView>
+                <SView className="my-2">
+                    <SText className="font-theme-header text-xl">Caduquen aviat</SText>
+                    <SText> Coming soon... </SText>
+                </SView>
+                <SView className="my-2">
+                    <SText className="font-theme-header text-xl">Oberts</SText>
+                    <SText> Coming soon... </SText>
+                </SView>
+                <SView className="my-2">
+                    <SView className="flex-row content-center, justify-between">
+                        <SView>
+                            <SText className="font-theme-header text-xl">Productes</SText>
+                        </SView>
+                    </SView>
+                    <FlatList
+                        data={data}
+                        renderItem={({item}) => <ProductListItem item={item} />}
+                    />
+                </SView>
             </SView>
         </SafeAreaView>
     )

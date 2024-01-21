@@ -2,7 +2,11 @@ import {Stack} from "expo-router";
 
 const PantryLayout = () => {
     return (
-        <Stack>
+        <Stack
+            screenOptions={{
+                presentation: 'modal'
+            }}
+        >
             <Stack.Screen
                 name="index"
                 options={{
@@ -12,7 +16,7 @@ const PantryLayout = () => {
             <Stack.Screen
                 name="[productId]"
                 options={{
-                    headerShown: false
+                    headerShown: false,
                 }}
             />
         </Stack>

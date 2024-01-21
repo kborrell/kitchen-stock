@@ -12,8 +12,8 @@ const NavigationBar = () => {
                 borderRightWidth: 1,
                 borderRadius: 20,
                 borderColor: "#d1d1d1",
-                padding: 20,
-                backgroundColor: "#ffffff"
+                backgroundColor: "#ffffff",
+                paddingTop: 20
             }}
             screenOptions={{
                 headerShown: false,
