@@ -1,21 +1,17 @@
 import React from 'react';
 import {SView} from "../../../nativewindTypes";
 import StockList from "./StockList";
+import {Stock} from "../../../services/types";
 
-const StockOverview = () => {
-    const stockItems = [
-        {format: "Brick 250ml", expireDate:"02/12/24", isOpened:true, expires: true, remaining: "25%"},
-        {format: "Brick 250ml", expireDate:"02/12/24", isOpened:false, expires: true, remaining: "100%"},
-        {format: "Brick 1L", expireDate:"02/12/24", isOpened:false, expires: false, remaining: "100%"}
-    ]
+const StockOverview = ({ product }) => {
 
     return (
         <SView className="flex-row h-full">
             <SView className="grow border-r-2 border-zinc-300">
-                <StockList name="Oberts" items={stockItems.filter(item => item.isOpened)} />
+                <StockList name="Oberts" items={product.stocks.filter((item : Stock) => item.isOpen)} />
             </SView>
             <SView className="grow">
-                <StockList name="Stock" items={stockItems.filter(item => !item.isOpened)} />
+                <StockList name="Stock" items={product.stocks.filter((item : Stock) => !item.isOpen)} />
             </SView>
         </SView>
     );

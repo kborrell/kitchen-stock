@@ -5,13 +5,14 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    format: {
-        type: String,
-        required: true
-    },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
+        required: true
+    },
+    stocks: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Stock',
         required: true
     }
 })

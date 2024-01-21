@@ -33,7 +33,7 @@ const Page = () => {
                 />
             </SView>
             <SView className="mt-4">
-                <StockOverview />
+                <StockOverview product={product}/>
             </SView>
         </SView>
     );
