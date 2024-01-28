@@ -9,7 +9,6 @@ export default function Page() {
 
     const initialValues = {
         name: "",
-        format: "",
         category: ""
     }
 
@@ -17,18 +16,19 @@ export default function Page() {
         name: yup
             .string()
             .required('El nom és obligatori'),
-        format: yup
-            .string()
-            .required('El format és obligatori'),
         categoryId: yup
             .string()
             .required('La categoria és obligatòria')
     })
 
-    const onSubmit = (values) => {
-        console.log(values.name, values.format, values.categoryId)
-        createProduct(values)
-        router.replace('/products')
+    const onSubmit = async (values) => {
+        try {
+            const result = await createProduct(values).unwrap();
+            console.log(result)
+            router.push("/pantry")
+        } catch {
+            console.error("ERROR CREATING PRODUCT", values)
+        }
     }
 
     return (

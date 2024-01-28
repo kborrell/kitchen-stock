@@ -39,13 +39,13 @@ export const loadProductsService = (app : Express) => {
 
         const product = new Product({
             name: body.name,
-            format: body.format,
             category: category._id,
             stocks: []
         })
 
         console.log(product)
         const savedProduct = await product.save()
+        await savedProduct.populate('category')
         response.json(savedProduct)
     })
 

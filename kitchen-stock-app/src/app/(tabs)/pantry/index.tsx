@@ -3,7 +3,7 @@ import {useGetProductsQuery} from "../../../services/api";
 import ProductListItem from "../../../components/pantry/ProductListItem";
 import {SText, SView} from "../../../nativewindTypes";
 import Button from "../../../components/elements/Button";
-import IconButton from "../../../components/elements/IconButton";
+import {router} from "expo-router";
 
 export default function Page() {
     const { data, error, isLoading } = useGetProductsQuery()
@@ -12,7 +12,7 @@ export default function Page() {
     if (!data) return <Text>Missing products!</Text>
 
     const addProductHandler = () => {
-        console.log("ADD PRODUCT")
+        router.push({ pathname:"/pantry/createProduct" })
     }
 
     const addStockHandler = () => {
@@ -27,7 +27,7 @@ export default function Page() {
                 </SView>
                 <SView className="flex-grow flex-row">
                     <Button buttonStyle={{ flex: 1, margin: 10 }} onPressHandler={addProductHandler}>Afegeix Producte</Button>
-                    <Button buttonStyle={{ flex: 1, margin: 10  }} onPressHandler={addStockHandler}>Afegeix Stock</Button>
+                    {/*<Button buttonStyle={{ flex: 1, margin: 10  }} onPressHandler={addStockHandler}>Afegeix Stock</Button>*/}
                 </SView>
                 <SView className="my-2">
                     <SText className="font-theme-header text-xl">Caduquen aviat</SText>

@@ -12,7 +12,6 @@ const CreateProductForm = ({ onSubmit }) => {
     return (
         <>
             <FormikTextInput name="name" placeholder="Nom del producte" />
-            <FormikTextInput name="format" placeholder="Format del producte" />
             <FormikPicker name="categoryId" items={data.map(element => ({label: element.name, value: element.id}))} />
 
             <Pressable onPress={onSubmit}>

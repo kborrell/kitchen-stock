@@ -19,6 +19,13 @@ const PantryLayout = () => {
                     headerShown: false,
                 }}
             />
+            <Stack.Screen
+                name="createProduct"
+                options={{
+                    headerShown: false,
+                    presentation: 'card'
+                }}
+            />
         </Stack>
     )
 }

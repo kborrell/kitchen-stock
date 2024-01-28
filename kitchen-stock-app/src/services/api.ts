@@ -7,7 +7,6 @@ console.log(baseUrl)
 
 type CreateProductArgs = {
     name: String,
-    format: String,
     categoryId: String
 }
 
