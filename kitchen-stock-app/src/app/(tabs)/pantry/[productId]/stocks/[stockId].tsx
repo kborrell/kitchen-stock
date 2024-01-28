@@ -1,7 +1,7 @@
 import React from 'react';
-import {useLocalSearchParams} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 import {Product, Stock} from "../../../../../services/types";
-import {useGetProductsQuery} from "../../../../../services/api";
+import {useEditStockMutation, useGetProductsQuery, useRemoveStockMutation} from "../../../../../services/api";
 import {SText, SView} from "../../../../../nativewindTypes";
 import AddStockForm from "../../../../../components/AddStockForm";
 import * as yup from "yup";
@@ -20,6 +20,9 @@ const Page = () => {
             }
         }
     })
+
+    const [editStock, editResult] = useEditStockMutation()
+    const [removeStock, deleteResult] = useRemoveStockMutation()
 
     // TODO: Extract into common class
     const validationSchema = yup.object().shape({
@@ -45,8 +48,6 @@ const Page = () => {
         expireDate: new Date(stock.expireDate)
     }
 
-    console.log("VALUES:", initialValues)
-
     const askRemoveStockHandler = () => {
         Alert.alert(
             "Segur que vols eliminar aquest stock?",
@@ -59,7 +60,10 @@ const Page = () => {
                 },
                 {
                     text: "Yes",
-                    onPress: () => console.log("Remove confirmed!"),
+                    onPress: () => {
+                        removeStock(stock.id)
+                        router.back()
+                    },
                     style: "destructive",
                 }
             ]
@@ -67,8 +71,14 @@ const Page = () => {
     }
 
     // TODO: Edit stock only if something changed
-    const saveStockHandler = () => {
+    const saveStockHandler = (values) => {
+        const updateStock = {
+            ...stock,
+            ...values
+        }
 
+        editStock(updateStock)
+        router.back()
     }
 
     return (

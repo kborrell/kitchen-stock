@@ -49,6 +49,11 @@ export const loadProductsService = (app : Express) => {
         response.json(savedProduct)
     })
 
+    app.get('/api/stocks', async (_, response) => {
+        const stocks = await Stock.find({})
+        response.json(stocks)
+    })
+
     app.post('/api/products/:id/stocks', async (request, response) => {
         const body = request.body
         console.log(body)
@@ -83,5 +88,55 @@ export const loadProductsService = (app : Express) => {
         await product.save()
 
         response.json(savedStock)
+    })
+
+    app.put('/api/stocks/:stockId', async (request, response) => {
+        const body = request.body
+        console.log(body)
+
+        if (!body) {
+            return response.status(400).json({
+                error: 'content missing'
+            })
+        }
+
+        const stock = {
+            format: body.format,
+            expireDate: body.expireDate,
+            isOpen: body.isOpen,
+            expires: body.expires,
+            remaining: body.remaining
+        }
+
+        const updatedStock = await Stock.findByIdAndUpdate(request.params.stockId, stock, { new: true })
+
+        if (!updatedStock) {
+            return response.status(404).json({
+                error: 'stock not found'
+            })
+        }
+
+        console.log(updatedStock)
+        response.json(updatedStock)
+    })
+
+    app.delete('/api/stocks/:id', async (request, response) => {
+        const stock = await Stock.findById(request.params.id)
+
+        if (!stock) {
+            return response.status(404).json({
+                error: 'stock not found'
+            })
+        }
+
+        const product = await Product.findById(stock.productId)
+
+        if (product) {
+            product.stocks = product.stocks.filter((stockId) => stockId != stock.id)
+            await product.save()
+        }
+
+        await stock.deleteOne()
+        response.status(204).end()
     })
 }

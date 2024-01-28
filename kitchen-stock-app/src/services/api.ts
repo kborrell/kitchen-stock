@@ -47,6 +47,21 @@ export const api = createApi({
                 body: args
             }),
             invalidatesTags: ['Products']
+        }),
+        editStock: builder.mutation<Stock, Stock>({
+            query: (args: Stock) => ({
+                url: `stocks/${args.id}`,
+                method: 'PUT',
+                body: args
+            }),
+            invalidatesTags: ['Products']
+        }),
+        removeStock: builder.mutation<undefined, String>({
+            query: (id : String) => ({
+                url: `stocks/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Products']
         })
     })
 })
@@ -55,5 +70,7 @@ export const {
     useGetProductsQuery,
     useGetCategoriesQuery,
     useCreateProductMutation,
-    useAddStockMutation
+    useAddStockMutation,
+    useEditStockMutation,
+    useRemoveStockMutation
 } = api
