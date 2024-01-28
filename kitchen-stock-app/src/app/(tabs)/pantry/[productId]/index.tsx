@@ -1,11 +1,11 @@
 import React from 'react';
-import {useLocalSearchParams} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 import {Image, Pressable} from 'react-native';
-import {useGetProductsQuery} from "../../../services/api";
-import {SText, SView} from "../../../nativewindTypes";
-import ProductHeader from "../../../components/pantry/productPage/ProductHeader";
-import StockOverview from "../../../components/pantry/productPage/StockOverview";
-import Button from "../../../components/elements/Button";
+import {useGetProductsQuery} from "../../../../services/api";
+import {SText, SView} from "../../../../nativewindTypes";
+import ProductHeader from "../../../../components/pantry/productPage/ProductHeader";
+import StockOverview from "../../../../components/pantry/productPage/StockOverview";
+import Button from "../../../../components/elements/Button";
 
 const Page = () => {
     const { productId } = useLocalSearchParams()
@@ -16,7 +16,7 @@ const Page = () => {
     })
 
     const addStockHandler = () => {
-        console.log("Add Stock")
+        router.push({pathname:"/pantry/[productId]/addStock", params: {"productId": productId}})
     }
 
     return (

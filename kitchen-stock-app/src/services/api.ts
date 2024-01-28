@@ -1,6 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import useEnvironmentVar from "../hooks/useEnvironmentVar";
-import type { Product, Category } from "./types"
+import type {Product, Category, Stock} from "./types"
+import {BaseQueryArg} from "@reduxjs/toolkit/dist/query/baseQueryTypes";
 
 const baseUrl = useEnvironmentVar("backendUrl")
 console.log(baseUrl)
@@ -8,6 +9,15 @@ console.log(baseUrl)
 type CreateProductArgs = {
     name: String,
     categoryId: String
+}
+
+type AddStockArgs = {
+    productId: String,
+    format: String,
+    expireDate: Date,
+    isOpen: Boolean,
+    expires: Boolean,
+    remaining: String
 }
 
 export const api = createApi({
@@ -29,6 +39,14 @@ export const api = createApi({
                 body: product
             }),
             invalidatesTags: ['Products']
+        }),
+        addStock: builder.mutation<Stock, AddStockArgs>({
+            query: (args: AddStockArgs) => ({
+                url: `products/${args.productId}/stocks`,
+                method: 'POST',
+                body: args
+            }),
+            invalidatesTags: ['Products']
         })
     })
 })
@@ -36,5 +54,6 @@ export const api = createApi({
 export const {
     useGetProductsQuery,
     useGetCategoriesQuery,
-    useCreateProductMutation
+    useCreateProductMutation,
+    useAddStockMutation
 } = api
