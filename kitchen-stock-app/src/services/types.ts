@@ -11,6 +11,7 @@ export type Category = {
 }
 
 export type Stock = {
+    id: String
     productId: String,
     format: String,
     expireDate: Date,

@@ -1,8 +1,7 @@
 import {Formik} from "formik";
-import CreateProductForm from "../../../../components/CreateProductForm";
 import * as yup from 'yup';
 import {router, useLocalSearchParams} from "expo-router";
-import {useAddStockMutation, useCreateProductMutation} from "../../../../services/api";
+import {useAddStockMutation} from "../../../../services/api";
 import AddStockForm from "../../../../components/AddStockForm";
 
 export default function Page() {
