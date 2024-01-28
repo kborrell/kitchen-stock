@@ -2,6 +2,9 @@ export type Product = {
     name: String,
     id: String,
     category: Category,
+    trackOpen: Boolean,
+    expires: Boolean,
+    daysToKeep: Number,
     stocks: [Stock]
 }
 
@@ -15,7 +18,9 @@ export type Stock = {
     productId: String,
     format: String,
     expireDate: Date,
-    isOpen: Boolean,
-    expires: Boolean,
-    remaining: string,
+    amount: Number,
+    open: [{
+        remaining: String,
+        date: Date
+    }],
 }

@@ -8,16 +8,17 @@ console.log(baseUrl)
 
 type CreateProductArgs = {
     name: String,
-    categoryId: String
+    categoryId: String,
+    trackOpen: Boolean,
+    expires: Boolean,
+    daysToKeep: Number
 }
 
 type AddStockArgs = {
     productId: String,
     format: String,
     expireDate: Date,
-    isOpen: Boolean,
-    expires: Boolean,
-    remaining: String
+    amount: Number,
 }
 
 export const api = createApi({

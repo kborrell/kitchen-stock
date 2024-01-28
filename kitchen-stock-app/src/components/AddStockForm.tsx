@@ -9,10 +9,8 @@ const AddStockForm = ({ onSubmit }) => {
     return (
         <>
             <FormikTextInput name="format" placeholder="Format del producte" />
-            <FormikCheckboxInput name="expires"/>
             <FormikDateInput name="expireDate"/>
-            <FormikCheckboxInput name="isOpen"/>
-            <FormikTextInput name="remaining" placeholder="Quantitat restant" />
+            <FormikTextInput name="amount" placeholder="Quantitat" />
 
             <Pressable onPress={onSubmit}>
                 <Text>Afegir</Text>

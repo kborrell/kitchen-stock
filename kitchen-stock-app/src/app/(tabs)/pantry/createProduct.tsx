@@ -9,7 +9,10 @@ export default function Page() {
 
     const initialValues = {
         name: "",
-        category: ""
+        categoryId: "",
+        trackOpen: false,
+        expires: false,
+        daysToKeep: 0
     }
 
     const validationSchema = yup.object().shape({
@@ -18,7 +21,13 @@ export default function Page() {
             .required('El nom és obligatori'),
         categoryId: yup
             .string()
-            .required('La categoria és obligatòria')
+            .required('La categoria és obligatòria'),
+        trackOpen: yup.boolean(),
+        expires: yup.boolean(),
+        daysToKeep: yup.number().when("trackOpen", {
+            is: true,
+            then: (schema) => schema.required("Indica el número de dies que el producte es pot conservar una vegada obert")
+        })
     })
 
     const onSubmit = async (values) => {

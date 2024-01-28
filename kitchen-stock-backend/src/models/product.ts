@@ -10,6 +10,17 @@ const productSchema = new mongoose.Schema({
         ref: 'Category',
         required: true
     },
+    trackOpen: {
+        type: Boolean,
+        required: true
+    },
+    expires: {
+        type: Boolean,
+        required: true
+    },
+    daysToKeep: {
+        type: Number
+    },
     stocks: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Stock',

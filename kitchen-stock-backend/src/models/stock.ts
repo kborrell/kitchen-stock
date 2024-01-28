@@ -10,20 +10,19 @@ const stockSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    amount: {
+        type: Number,
+        required: true
+    },
     expireDate: {
         type: Date
     },
-    isOpen: {
-        type: Boolean,
-        required: true
+    open: {
+        type: [{
+            remaining: String,
+            date: Date
+        }]
     },
-    expires: {
-        type: Boolean,
-        required: true
-    },
-    remaining: {
-        type: String,
-    }
 })
 
 stockSchema.set('toJSON', {

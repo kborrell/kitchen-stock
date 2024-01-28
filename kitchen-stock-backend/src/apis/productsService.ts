@@ -40,6 +40,9 @@ export const loadProductsService = (app : Express) => {
         const product = new Product({
             name: body.name,
             category: category._id,
+            trackOpen: body.trackOpen,
+            expires: body.expires,
+            daysToKeep: body.daysToKeep,
             stocks: []
         })
 
@@ -75,10 +78,9 @@ export const loadProductsService = (app : Express) => {
         const stock = new Stock({
             productId: product.id,
             format: body.format,
+            amount: body.amount,
             expireDate: body.expireDate,
-            isOpen: body.isOpen,
-            expires: body.expires,
-            remaining: body.remaining
+            open: []
         })
 
         console.log(stock)
@@ -102,10 +104,9 @@ export const loadProductsService = (app : Express) => {
 
         const stock = {
             format: body.format,
+            amount: body.amount,
             expireDate: body.expireDate,
-            isOpen: body.isOpen,
-            expires: body.expires,
-            remaining: body.remaining
+            open: body.open
         }
 
         const updatedStock = await Stock.findByIdAndUpdate(request.params.stockId, stock, { new: true })
