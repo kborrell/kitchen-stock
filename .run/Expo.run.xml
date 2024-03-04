@@ -1,0 +1,25 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Expo" type="ReactNative" factoryName="React Native">
+    <node-interpreter value="project" />
+    <react-native value="$PROJECT_DIR$/kitchen-stock-app/node_modules/react-native" />
+    <platform value="ANDROID" />
+    <envs />
+    <only-packager />
+    <build-and-launch value="false" />
+    <browser value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+    <debug-host value="127.0.0.1" />
+    <debug-port value="19000" />
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/kitchen-stock-app/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="start" />
+        </scripts>
+        <arguments value="--clear" />
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>
+  </configuration>
+</component>
