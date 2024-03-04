@@ -20,6 +20,12 @@ const PantryLayout = () => {
                 }}
             />
             <Stack.Screen
+                name="[productId]/editProduct"
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
                 name="[productId]/addStock"
                 options={{
                     headerShown: false,

@@ -52,6 +52,66 @@ export const loadProductsService = (app : Express) => {
         response.json(savedProduct)
     })
 
+    app.put('/api/products/:id', async (request, response) => {
+        const body = request.body
+        console.log(body)
+
+        if (!body) {
+            return response.status(400).json({
+                error: 'content missing'
+            })
+        }
+
+        const category = await Category.findById(body.categoryId)
+
+        if (!category) {
+            return response.status(400).json({
+                error: 'category missing'
+            })
+        }
+
+        const product = {
+            name: body.name,
+            category: category._id,
+            trackOpen: body.trackOpen,
+            expires: body.expires,
+            daysToKeep: body.daysToKeep,
+            stocks: body.stocks
+        }
+
+        console.log("PUT:", product)
+
+        //const updatedProduct = await Product.findByIdAndUpdate(request.params.id, product, { new: true })
+
+        /*if (!updatedProduct) {
+            return response.status(404).json({
+                error: 'product not found'
+            })
+        }
+
+        console.log(updatedProduct)
+        response.json(updatedProduct)*/
+
+        response.status(200).end()
+    })
+
+    app.delete('/api/products/:id', async (request, response) => {
+        const product = await Product.findById(request.params.id)
+
+        if (!product) {
+            return response.status(404).json({
+                error: 'product not found'
+            })
+        }
+
+        for (const stockId in product.stocks) {
+            await Stock.findByIdAndDelete(stockId)
+        }
+
+        await product.deleteOne()
+        response.status(204).end()
+    })
+
     app.get('/api/stocks', async (_, response) => {
         const stocks = await Stock.find({})
         response.json(stocks)

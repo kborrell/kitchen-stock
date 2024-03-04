@@ -41,6 +41,21 @@ export const api = createApi({
             }),
             invalidatesTags: ['Products']
         }),
+        editProduct: builder.mutation<Product, Product>({
+            query: (args: Product) => ({
+                url: `products/${args.id}`,
+                method: 'PUT',
+                body: args
+            }),
+            invalidatesTags: ['Products']
+        }),
+        removeProduct: builder.mutation<undefined, String>({
+            query: (id: String) => ({
+                url: `products/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Products']
+        }),
         addStock: builder.mutation<Stock, AddStockArgs>({
             query: (args: AddStockArgs) => ({
                 url: `products/${args.productId}/stocks`,
@@ -71,6 +86,8 @@ export const {
     useGetProductsQuery,
     useGetCategoriesQuery,
     useCreateProductMutation,
+    useEditProductMutation,
+    useRemoveProductMutation,
     useAddStockMutation,
     useEditStockMutation,
     useRemoveStockMutation

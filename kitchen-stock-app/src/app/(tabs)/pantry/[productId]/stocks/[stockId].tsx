@@ -29,18 +29,12 @@ const Page = () => {
         format: yup
             .string()
             .required('El format és obligatòri'),
-        expires: yup
-            .boolean(),
+        amount: yup
+            .number()
+            .moreThan(0, "La quantitat ha de ser major de 0")
+            .required("La quantitat es obligatòria"),
         expireDate: yup
-            .date()
-            .when("expires", {
-                is: true,
-                then: (schema) => schema.required("La data d'expiració és obligatòria")
-            }),
-        isOpen: yup
-            .boolean(),
-        remaining: yup
-            .string()
+            .date(),
     })
 
     const initialValues = {
