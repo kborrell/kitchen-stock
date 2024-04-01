@@ -1,26 +1,24 @@
 export type Product = {
-    name: String,
-    id: String,
+    name: string,
+    id: string,
     category: Category,
-    trackOpen: Boolean,
-    expires: Boolean,
-    daysToKeep: Number,
+    trackOpen: boolean,
+    expires: boolean,
+    daysToKeep: number,
     stocks: [Stock]
 }
 
 export type Category = {
-    id: String,
-    name: String
+    id: string,
+    name: string
 }
 
 export type Stock = {
-    id: String
-    productId: String,
-    format: String,
-    expireDate: Date,
-    amount: Number,
-    open: [{
-        remaining: String,
-        date: Date
-    }],
+    id: string
+    productId: string,
+    format: string,
+    expireDate?: Date,
+    amount: number,
+    isOpen: boolean,
+    remaining?: string
 }

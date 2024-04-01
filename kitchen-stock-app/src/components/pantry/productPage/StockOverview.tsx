@@ -1,10 +1,13 @@
 import React from 'react';
 import {SView} from "../../../nativewindTypes";
 import StockList from "./StockList";
-import {Stock} from "../../../services/types";
+import {Product, Stock} from "../../../services/types";
 
-const StockOverview = ({ product }) => {
+type StockOverviewProps = {
+    product: Product
+}
 
+const StockOverview = ({ product }: StockOverviewProps) => {
     return (
         <SView className="flex-row h-screen">
             <SView className="w-1/2 border-r-2 border-zinc-300">
