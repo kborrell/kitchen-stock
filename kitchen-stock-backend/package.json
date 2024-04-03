@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "description": "A simple REST backend for the Kitchen Stock app",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "test": "cross-env NODE_ENV=test ts-node-test tests",
+    "test": "cross-env NODE_ENV=test vitest",
     "start": "cross-env NODE_ENV=production node build/index.js",
     "tsc": "tsc",
     "dev": "cross-env NODE_ENV=development ts-node-dev index.ts",
@@ -22,8 +21,8 @@
     "eslint": "^8.56.0",
     "mongodb-memory-server": "^9.1.8",
     "ts-node-dev": "^2.0.0",
-    "ts-node-test": "^0.4.3",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.4.0"
   },
   "dependencies": {
     "cors": "^2.8.5",

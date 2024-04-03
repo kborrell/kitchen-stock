@@ -1,7 +1,7 @@
 import Category from "../models/category";
 
 const getAllCategories = async () => {
-    return Category.find({})
+    return Category.find({}).exec();
 }
 
 const createCategory = async ( name: string ) => {
@@ -10,7 +10,7 @@ const createCategory = async ( name: string ) => {
     })
 
     console.log(category)
-    return category.save()
+    return await category.save()
 }
 
 export {
