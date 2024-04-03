@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 export const connectDb = () => {
     mongoose.set('strictQuery', false)
 
-    const url = process.env.MONGODB_URI ?? ""
+    const url = process.env.NODE_ENV === "test"
+        ? ("TEST_URL" ?? "")
+        : (process.env.MONGODB_URI ?? "")
 
     console.log('connecting to', url)
 
