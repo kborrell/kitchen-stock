@@ -29,12 +29,12 @@ describe('when there are some categories created', () => {
         expect(categories.length).toBe(2)
     });
 
-    it('first note has correct data', async () => {
+    it('first category has correct data', async () => {
         const categories = await getAllCategories()
         expect(categories[0].name).toBe("category1")
     });
 
-    it('create a note adds it', async () => {
+    it('create a category adds it', async () => {
         const createdCategory = await createCategory("newCategory")
         const categories = await Category.find({}).exec();
         expect(createdCategory.name).toBe("newCategory")

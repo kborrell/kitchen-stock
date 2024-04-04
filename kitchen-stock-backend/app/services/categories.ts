@@ -9,7 +9,6 @@ const createCategory = async ( name: string ) => {
         name: name,
     })
 
-    console.log(category)
     return await category.save()
 }
 

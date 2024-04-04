@@ -16,7 +16,7 @@ type UpdateStockProps = {
 }
 
 const getAllStocks = async () => {
-    return Stock.find({})
+    return Stock.find({}).exec()
 }
 
 const updateStock = async ( id: string, { format, amount, expireDate, open } : UpdateStockProps ) => {
@@ -51,7 +51,7 @@ const deleteStock = async ( id: string ) => {
         await product.save()
     }
 
-    await stock.deleteOne()
+    return stock.deleteOne().exec()
 }
 
 export {

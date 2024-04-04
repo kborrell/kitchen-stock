@@ -8,7 +8,6 @@ export default {
     },
     createCategory: async (request : Request<unknown, unknown, { name: string }>, response : Response) => {
         const body = request.body
-        console.log(body)
 
         if (!body) {
             return response.status(400).json({

@@ -26,11 +26,11 @@ type CreateStockProps = {
 }
 
 const getAllProducts = async () => {
-    return Product.find({}).populate('category').populate('stocks');
+    return Product.find({}).populate('category').populate('stocks').exec();
 }
 
 const getProductById = async (id : string) => {
-    return Product.findById(id).populate('category').populate('stocks')
+    return Product.findById(id).populate('category').populate('stocks').exec();
 }
 
 const createProduct = async ( { categoryId, name, trackOpen, expires, daysToKeep } : CreateProductProps ) => {
@@ -51,8 +51,7 @@ const createProduct = async ( { categoryId, name, trackOpen, expires, daysToKeep
 
     console.log(product)
     const savedProduct = await product.save()
-    await savedProduct.populate('category')
-    return savedProduct;
+    return  savedProduct.populate('category')
 }
 
 const updateProduct = async ( { categoryId, name, trackOpen, expires, daysToKeep, stocks } : UpdateProductProps ) => {
