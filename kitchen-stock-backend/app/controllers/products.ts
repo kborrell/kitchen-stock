@@ -47,21 +47,14 @@ export default {
     },
     createProduct: async (request: Request<unknown, unknown, CreateProductBodyParams>, response : Response) => {
         const body = request.body
-        console.log(body)
-
-        if (!body || !body.categoryId) {
-            return response.status(400).json({
-                error: 'content missing'
-            })
-        }
 
         try {
             const savedProduct = await createProduct(body)
             response.json(savedProduct)
         } catch (error) {
-            const errorResponse = response.status(404)
+            const errorResponse = response.status(400)
             if (error instanceof  Error) errorResponse.json({ error: error.message })
-            return errorResponse
+            errorResponse.end()
         }
     },
     updateProduct: async (request : Request<unknown, unknown, UpdateProductBodyParams>, response : Response) => {
@@ -78,9 +71,9 @@ export default {
             //const updatedProduct = await updateProduct(body)
             response.status(200).end()
         } catch (error) {
-            const errorResponse = response.status(404)
+            const errorResponse = response.status(400)
             if (error instanceof  Error) errorResponse.json({ error: error.message })
-            return errorResponse
+            errorResponse.end()
         }
     },
     deleteProduct: async (request: Request, response: Response) => {
@@ -90,26 +83,17 @@ export default {
         } catch (error) {
             const errorResponse = response.status(404)
             if (error instanceof  Error) errorResponse.json({ error: error.message })
-            return errorResponse
+            errorResponse.end()
         }
     },
     createProductStock: async (request : Request<{ id: string }, unknown, CreateStockBodyParams>, response : Response) => {
-        const body = request.body
-        console.log(body)
-
-        if (!body) {
-            return response.status(400).json({
-                error: 'content missing'
-            })
-        }
-
         try {
             const savedStock = await createProductStock(request.params.id, request.body)
             response.json(savedStock)
         } catch (error) {
-            const errorResponse = response.status(404)
+            const errorResponse = response.status(400)
             if (error instanceof  Error) errorResponse.json({ error: error.message })
-            return errorResponse
+            errorResponse.end()
         }
     }
 }

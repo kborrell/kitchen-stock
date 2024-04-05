@@ -1,6 +1,7 @@
 import Product from "../models/product";
 import Category from "../models/category";
 import Stock from "../models/stock";
+import mongoose from "mongoose";
 
 type CreateProductProps = {
     name: string,
@@ -30,14 +31,22 @@ const getAllProducts = async () => {
 }
 
 const getProductById = async (id : string) => {
-    return Product.findById(id).populate('category').populate('stocks').exec();
+    if (mongoose.Types.ObjectId.isValid(id)) {
+        return Product.findById(id).populate('category').populate('stocks').exec();
+    }
+
+    return undefined
 }
 
 const createProduct = async ( { categoryId, name, trackOpen, expires, daysToKeep } : CreateProductProps ) => {
-    const category = await Category.findById(categoryId)
+    const category = mongoose.Types.ObjectId.isValid(categoryId) ? (await Category.findById(categoryId)) : undefined
 
-    if (!category) {
+    if (!category ) {
         throw new Error("category not found")
+    }
+
+    if (name === undefined || trackOpen === undefined || expires === undefined || daysToKeep === undefined) {
+        throw new Error("missing data")
     }
 
     const product = new Product({
@@ -49,13 +58,12 @@ const createProduct = async ( { categoryId, name, trackOpen, expires, daysToKeep
         stocks: []
     })
 
-    console.log(product)
     const savedProduct = await product.save()
     return  savedProduct.populate('category')
 }
 
 const updateProduct = async ( { categoryId, name, trackOpen, expires, daysToKeep, stocks } : UpdateProductProps ) => {
-    const category = await Category.findById(categoryId)
+    const category = mongoose.Types.ObjectId.isValid(categoryId) ? (await Category.findById(categoryId)) : undefined
 
     if (!category) {
         throw new Error("category not found")
@@ -74,7 +82,7 @@ const updateProduct = async ( { categoryId, name, trackOpen, expires, daysToKeep
 }
 
 const deleteProduct = async ( id : string ) => {
-    const product = await Product.findById(id)
+    const product = mongoose.Types.ObjectId.isValid(id) ? await Product.findById(id) : undefined
 
     if (!product) {
         throw new Error("product not found")
@@ -88,10 +96,14 @@ const deleteProduct = async ( id : string ) => {
 }
 
 const createProductStock = async ( productId: string, { format, amount, expireDate } : CreateStockProps ) => {
-    const product = await Product.findById(productId)
+    const product = mongoose.Types.ObjectId.isValid(productId) ? await Product.findById(productId) : undefined
 
     if (!product) {
         throw new Error("product not found")
+    }
+
+    if (format === undefined || amount === undefined || expireDate === undefined) {
+        throw new Error("missing data")
     }
 
     const stock = new Stock({
@@ -102,7 +114,6 @@ const createProductStock = async ( productId: string, { format, amount, expireDa
         open: []
     })
 
-    console.log(stock)
     const savedStock = await stock.save()
 
     product.stocks.push(savedStock._id)

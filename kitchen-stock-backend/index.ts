@@ -3,6 +3,7 @@ import app from "./app";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-var-requires
 require('dotenv').config()
+require('express-async-errors')
 
 connectDb()
 

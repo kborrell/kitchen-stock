@@ -9,7 +9,7 @@ export default {
     createCategory: async (request : Request<unknown, unknown, { name: string }>, response : Response) => {
         const body = request.body
 
-        if (!body) {
+        if (!body || !body.name) {
             return response.status(400).json({
                 error: 'content missing'
             })

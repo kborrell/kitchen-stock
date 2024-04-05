@@ -1,5 +1,6 @@
 import Stock from "../models/stock";
 import Product from "../models/product";
+import mongoose from "mongoose";
 
 type UpdateStockProps = {
     format: string,
@@ -20,6 +21,10 @@ const getAllStocks = async () => {
 }
 
 const updateStock = async ( id: string, { format, amount, expireDate, open } : UpdateStockProps ) => {
+    if (!id || !format || amount === undefined || !expireDate || open === undefined) {
+        throw new Error('missing data')
+    }
+
     const stock = {
         format: format,
         amount: amount,
@@ -27,18 +32,17 @@ const updateStock = async ( id: string, { format, amount, expireDate, open } : U
         open: open
     }
 
-    const updatedStock = await Stock.findByIdAndUpdate(id, stock, { new: true })
+    const updatedStock = mongoose.Types.ObjectId.isValid(id) ? await Stock.findByIdAndUpdate(id, stock, { new: true }) : undefined
 
     if (!updatedStock) {
         throw new Error('stock not found')
     }
 
-    console.log(updatedStock)
     return updatedStock
 }
 
 const deleteStock = async ( id: string ) => {
-    const stock = await Stock.findById(id)
+    const stock = mongoose.Types.ObjectId.isValid(id) ? await Stock.findById(id) : undefined
 
     if (!stock) {
         throw new Error('stock not found')

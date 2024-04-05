@@ -23,21 +23,14 @@ export default {
     },
     updateStock: async (request : Request<{ id: string }, unknown, UpdateStockBodyParams>, response : Response) => {
         const body = request.body
-        console.log(body)
-
-        if (!body) {
-            return response.status(400).json({
-                error: 'content missing'
-            })
-        }
 
         try {
             const updatedStock = await updateStock( request.params.id, body)
             response.json(updatedStock)
         } catch (error) {
-            const errorResponse = response.status(404)
+            const errorResponse = response.status(400)
             if (error instanceof  Error) errorResponse.json({ error: error.message })
-            return errorResponse
+            errorResponse.end()
         }
     },
     deleteStock: async (request: Request, response: Response) => {
@@ -47,7 +40,7 @@ export default {
         } catch (error) {
             const errorResponse = response.status(404)
             if (error instanceof  Error) errorResponse.json({ error: error.message })
-            return errorResponse
+            errorResponse.end()
         }
     }
 }

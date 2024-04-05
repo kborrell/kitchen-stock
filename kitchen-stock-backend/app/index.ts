@@ -13,10 +13,6 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('tiny'))
 
-app.get('/', (_, response) => {
-    response.send('Kitchen Stock App API')
-})
-
 app.use('/api/products', productRoutes)
 app.use('/api/categories', categoriesRoutes)
 app.use('/api/stocks', stockRoutes)
