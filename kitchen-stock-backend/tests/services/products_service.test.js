@@ -116,7 +116,7 @@ describe("creating a stock for a product", () => {
         await createProductStock(initialIds[0], {
             format: "units",
             amount: 1,
-            expireDate: "1970-01-01T00:00:00.000Z"
+            isOpen: false
         })
         const product = await Product.findById(initialIds[0])
         expect(product.stocks.length).toBe(1)

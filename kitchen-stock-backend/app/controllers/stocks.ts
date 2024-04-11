@@ -1,19 +1,14 @@
-import { Request, Response } from "express";
-import {deleteStock, getAllStocks, updateStock} from "../services/stocks";
+import {Request, Response} from "express";
+import {deleteStock, getAllStocks, openStock, updateStock} from "../services/stocks";
 import {Error} from "mongoose";
 
 type UpdateStockBodyParams = {
     format: string,
     expireDate: string,
     amount: number,
-    expires: boolean,
     remaining: string,
-    open: [
-        {
-            "date": string,
-            "remaining": string
-        }
-    ]
+    isOpen: boolean,
+    productId: string
 }
 
 export default {
@@ -40,6 +35,16 @@ export default {
         } catch (error) {
             const errorResponse = response.status(404)
             if (error instanceof  Error) errorResponse.json({ error: error.message })
+            errorResponse.end()
+        }
+    },
+    openStock: async (request: Request, response: Response) => {
+        try {
+            const newStock = await openStock(request.params.id, request.body)
+            response.json(newStock)
+        } catch (error) {
+            const errorResponse = response.status(400)
+            if (error instanceof Error) errorResponse.json({ error: error.message })
             errorResponse.end()
         }
     }

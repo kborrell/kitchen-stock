@@ -11,17 +11,20 @@ import {deleteStock, getAllStocks, updateStock} from "../../app/services/stocks"
 import supertest from "supertest";
 import app from "../../app";
 import {populateStocks} from "../utils";
+import product from "../../app/models/product";
 
 const initialStocks = [
     {
         format: "unit",
         amount: 1,
-        expireDate: "1970-01-01T00:00:00.000Z"
+        expireDate: "1970-01-01T00:00:00.000Z",
+        isOpen: false
     },
     {
         format: "unit",
         amount: 5,
-        expireDate: "1970-01-01T00:00:00.000Z"
+        expireDate: "1970-01-01T00:00:00.000Z",
+        isOpen: false
     }
 ]
 
@@ -61,7 +64,8 @@ describe('updating a stock', () => {
                 format: "updatedFormat",
                 amount: 10,
                 expireDate: "1970-01-01T00:00:00.000Z",
-                open: []
+                isOpen: false,
+                productId: productId
             })
             .expect(200)
 
@@ -76,7 +80,7 @@ describe('updating a stock', () => {
                 format: "updatedFormat",
                 amount: 10,
                 expireDate: "1970-01-01T00:00:00.000Z",
-                open: []
+                isOpen: false
             })
             .expect(400)
     });
@@ -88,7 +92,6 @@ describe('updating a stock', () => {
             .send({
                 format: "updatedFormat",
                 expireDate: "1970-01-01T00:00:00.000Z",
-                open: []
             })
             .expect(400)
     });

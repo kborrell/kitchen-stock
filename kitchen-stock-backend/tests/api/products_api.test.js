@@ -22,7 +22,7 @@ const initialProducts = [
     }
 ]
 
-let initialIds = []
+let products = []
 
 const api = supertest(app)
 
@@ -31,7 +31,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-    initialIds = await populateProducts(initialProducts)
+    products = await populateProducts(initialProducts)
 })
 
 describe('when there are some products created the api', () => {
@@ -42,11 +42,13 @@ describe('when there are some products created the api', () => {
 
     it('should return the first product with correct data', async () => {
         const response = await api.get('/api/products').expect(200)
-        expect(response.body[0].name).toBe("product1")
+        console.log(products)
+        console.log(response.body)
+        expect(response.body[0].name).toBe(products.find(x => x._id.toString() === response.body[0].id).name)
     });
 
     it('should return a product by id', async () => {
-        const response = await api.get(`/api/products/${initialIds[0]}`).expect(200)
+        const response = await api.get(`/api/products/${products[0].id}`).expect(200)
         expect(response.body.name).toBe("product1")
     });
 
@@ -105,10 +107,10 @@ describe('creating a new product', () => {
 
 describe('deleting a product', () => {
     it('with a valid id succeeds', async () => {
-        await api.delete(`/api/products/${initialIds[0]}`)
+        await api.delete(`/api/products/${products[0].id}`)
         const response = await api.get('/api/products')
         expect(response.body.length).toBe(1)
-        expect(response.body.find(product => product.id === initialIds[0])).toBeUndefined()
+        expect(response.body.find(product => product.id === products[0].id)).toBeUndefined()
     })
 
     it('with a wrong id throws error', async () => {
@@ -119,22 +121,23 @@ describe('deleting a product', () => {
 describe('creating a stock for a product', () => {
     it('succeeds with valid data', async () => {
         await api
-            .post(`/api/products/${initialIds[0]}/stocks`)
+            .post(`/api/products/${products[0].id}/stocks`)
             .send({
                 format: "units",
                 amount: 1,
-                expireDate: "1970-01-01T00:00:00.000Z"
+                expireDate: "1970-01-01T00:00:00.000Z",
+                isOpen: false
             })
             .expect(200)
 
-        const response = await api.get(`/api/products/${initialIds[0]}`)
+        const response = await api.get(`/api/products/${products[0].id}`)
         expect(response.body
             .stocks.length).toBe(1)
     })
 
     it('throws error with missing data', async () => {
         await api
-            .post(`/api/products/${initialIds[0]}/stocks`)
+            .post(`/api/products/${products[0].id}/stocks`)
             .send({
                 format: "units",
                 expireDate: "1970-01-01T00:00:00.000Z"

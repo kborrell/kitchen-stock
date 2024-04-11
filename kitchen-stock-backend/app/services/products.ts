@@ -22,8 +22,10 @@ type UpdateProductProps = {
 
 type CreateStockProps = {
     format: string,
-    expireDate: string,
+    expireDate?: string,
     amount: number,
+    isOpen: boolean,
+    remaining?: string
 }
 
 const getAllProducts = async () => {
@@ -95,23 +97,24 @@ const deleteProduct = async ( id : string ) => {
     await product.deleteOne()
 }
 
-const createProductStock = async ( productId: string, { format, amount, expireDate } : CreateStockProps ) => {
+const createProductStock = async ( productId: string, { format, amount, expireDate, isOpen, remaining } : CreateStockProps ) => {
     const product = mongoose.Types.ObjectId.isValid(productId) ? await Product.findById(productId) : undefined
 
     if (!product) {
         throw new Error("product not found")
     }
 
-    if (format === undefined || amount === undefined || expireDate === undefined) {
+    if (format === undefined || amount === undefined || isOpen === undefined) {
         throw new Error("missing data")
     }
 
     const stock = new Stock({
-        productId: product._id,
+        product: product._id,
         format: format,
         amount: amount,
         expireDate: expireDate,
-        open: []
+        isOpen: isOpen,
+        remaining: remaining
     })
 
     const savedStock = await stock.save()

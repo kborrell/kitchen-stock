@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const stockSchema = new mongoose.Schema({
-    productId: {
+    product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
         required: true
@@ -17,12 +17,13 @@ const stockSchema = new mongoose.Schema({
     expireDate: {
         type: Date
     },
-    open: {
-        type: [{
-            remaining: String,
-            date: Date
-        }]
+    isOpen: {
+        type: Boolean,
+        required: true
     },
+    remaining: {
+        type: String
+    }
 })
 
 stockSchema.set('toJSON', {

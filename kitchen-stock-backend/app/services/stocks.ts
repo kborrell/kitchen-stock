@@ -6,30 +6,37 @@ type UpdateStockProps = {
     format: string,
     expireDate: string,
     amount: number,
-    expires: boolean,
     remaining: string,
-    open: [
-        {
-            "date": string,
-            "remaining": string
-        }
-    ]
+    isOpen: boolean,
+    productId: string
+}
+
+type OpenStockProps = {
+
 }
 
 const getAllStocks = async () => {
-    return Stock.find({}).exec()
+    return Stock.find({}).populate("product").exec()
 }
 
-const updateStock = async ( id: string, { format, amount, expireDate, open } : UpdateStockProps ) => {
-    if (!id || !format || amount === undefined || !expireDate || open === undefined) {
+const updateStock = async ( id: string, { format, expireDate, amount, remaining, isOpen, productId } : UpdateStockProps ) => {
+    if (!id || !format || amount === undefined || isOpen === undefined || !productId) {
         throw new Error('missing data')
+    }
+
+    const product = mongoose.Types.ObjectId.isValid(productId) ? await Product.findById(productId) : undefined
+
+    if (!product) {
+        throw new Error('product not found')
     }
 
     const stock = {
         format: format,
         amount: amount,
         expireDate: expireDate,
-        open: open
+        remaining: remaining,
+        isOpen: isOpen,
+        product: product._id
     }
 
     const updatedStock = mongoose.Types.ObjectId.isValid(id) ? await Stock.findByIdAndUpdate(id, stock, { new: true }) : undefined
@@ -38,7 +45,7 @@ const updateStock = async ( id: string, { format, amount, expireDate, open } : U
         throw new Error('stock not found')
     }
 
-    return updatedStock
+    return updatedStock.populate("product")
 }
 
 const deleteStock = async ( id: string ) => {
@@ -48,7 +55,7 @@ const deleteStock = async ( id: string ) => {
         throw new Error('stock not found')
     }
 
-    const product = await Product.findById(stock.productId)
+    const product = await Product.findById(stock.product)
 
     if (product) {
         product.stocks = product.stocks.filter((stockId) => stockId != stock.id)
@@ -58,8 +65,13 @@ const deleteStock = async ( id: string ) => {
     return stock.deleteOne().exec()
 }
 
+const openStock = async (_: string, {  } : OpenStockProps)=> {
+
+}
+
 export {
     getAllStocks,
     updateStock,
-    deleteStock
+    deleteStock,
+    openStock
 }

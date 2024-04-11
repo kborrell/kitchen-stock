@@ -9,12 +9,13 @@ const initialStocks = [
     {
         format: "unit",
         amount: 1,
-        expireDate: "1970-01-01T00:00:00.000Z"
+        isOpen: false,
+
     },
     {
         format: "unit",
         amount: 5,
-        expireDate: "1970-01-01T00:00:00.000Z"
+        isOpen: false
     }
 ]
 
@@ -49,8 +50,8 @@ describe('updating a stock', () => {
         await updateStock(stocks[0]._id, {
             format: "updatedFormat",
             amount: 10,
-            expireDate: "1970-01-01T00:00:00.000Z",
-            open: []
+            isOpen: false,
+            productId: productId
         })
         const updatedStock = await Stock.findById(stocks[0]._id)
         expect(updatedStock.format).toBe("updatedFormat")
@@ -62,7 +63,8 @@ describe('updating a stock', () => {
             format: "updatedFormat",
             amount: 10,
             expireDate: "1970-01-01T00:00:00.000Z",
-            open: []
+            isOpen: false,
+            productId: productId
         })).rejects.toThrowError("stock")
     });
 
@@ -71,7 +73,6 @@ describe('updating a stock', () => {
         expect(async () => await updateStock(stocks[0]._id, {
             format: "updatedFormat",
             expireDate: "1970-01-01T00:00:00.000Z",
-            open: []
         })).rejects.toThrowError("data")
     });
 })

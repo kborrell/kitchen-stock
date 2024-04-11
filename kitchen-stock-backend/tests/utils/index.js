@@ -33,8 +33,7 @@ export const populateProducts = async (initialProducts) => {
     const productObjects = initialProducts.map(product => new Product({category: category._id, ...product}))
     const promises = productObjects.map(product => product.save())
 
-    const products = await Promise.all(promises)
-    return products.map(product => product._id)
+    return await Promise.all(promises)
 }
 
 export const populateStocks = async (initialProduct, initialStocks) => {
