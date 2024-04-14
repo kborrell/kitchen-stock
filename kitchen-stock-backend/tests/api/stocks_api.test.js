@@ -1,17 +1,10 @@
-import Category from "../../app/models/category";
 import { describe, beforeEach, beforeAll, afterAll, expect, it} from "vitest";
 import testDb from "../test_db"
-import Product from "../../app/models/product";
-import {
-    createProductStock,
-    deleteProduct,
-} from "../../app/services/products";
-import Stock from "../../app/models/stock";
-import {deleteStock, getAllStocks, updateStock} from "../../app/services/stocks";
 import supertest from "supertest";
 import app from "../../app";
 import {populateStocks} from "../utils";
-import product from "../../app/models/product";
+import {getAllStocks, openStock} from "../../app/services/stocks";
+import Product from "../../app/models/product";
 
 const initialStocks = [
     {
@@ -113,6 +106,43 @@ describe('deleting a stock', () => {
 
     it('should throw error with invalid id', async () => {
         await api.delete(`/api/stocks/wrongid`).expect(404)
+    });
+});
+
+describe('opening a stock', () => {
+    it('should succeed with valid data', async () => {
+        const stocks = (await api.get('/api/stocks')).body
+        const stockToOpen = stocks.find(x => x.amount === 5)
+        await api.post(`/api/stocks/${stockToOpen.id}`).send({
+            expireDate: "1970-01-01T00:00:00.000Z"
+        })
+
+        const updatedProduct = (await api.get(`/api/products/${stockToOpen.product.id}`)).body
+        console.log(updatedProduct)
+        expect(updatedProduct.stocks).toHaveLength(3)
+        const openedStock = updatedProduct.stocks.find(x => x.id === stockToOpen.id)
+        const newStock = updatedProduct.stocks.find(x => x.isOpen)
+        expect(openedStock.amount).toBe(4)
+        expect(newStock).not.toBeUndefined()
+    });
+
+    it('should remove empty stock after valid open', async () => {
+        const stocks = (await api.get('/api/stocks')).body
+        const stockToOpen = stocks.find(x => x.amount === 1)
+        await api.post(`/api/stocks/${stockToOpen.id}`).send({
+            expireDate: "1970-01-01T00:00:00.000Z"
+        })
+
+        const updatedProduct = (await api.get(`/api/products/${stockToOpen.product.id}`)).body
+        expect(updatedProduct.stocks).toHaveLength(2)
+        const openedStock = updatedProduct.stocks.find(x => x.id === stockToOpen.id)
+        expect(openedStock).toBeUndefined()
+        const newStock = updatedProduct.stocks.find(x => x.isOpen)
+        expect(newStock).not.toBeUndefined()
+    });
+
+    it('should fail with invalid stock id', async () => {
+        await api.post(`/api/stocks/wrongid`).expect(400)
     });
 });
 

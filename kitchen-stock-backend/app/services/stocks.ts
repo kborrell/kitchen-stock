@@ -1,6 +1,7 @@
 import Stock from "../models/stock";
 import Product from "../models/product";
 import mongoose from "mongoose";
+import {getEntityById, validateObjectId} from "./mongoUtils";
 
 type UpdateStockProps = {
     format: string,
@@ -11,12 +12,38 @@ type UpdateStockProps = {
     productId: string
 }
 
-type OpenStockProps = {
-
+type CreateStockProps = {
+    format: string,
+    expireDate?: string,
+    amount: number,
+    remaining?: string,
+    isOpen?: boolean
 }
 
 const getAllStocks = async () => {
     return Stock.find({}).populate("product").exec()
+}
+
+const createStock = async (productId: string, { format, expireDate, amount, remaining, isOpen } : CreateStockProps) => {
+    if (!productId || !format ||  amount === undefined) {
+        throw new Error('missing data')
+    }
+
+    const product = await getEntityById(productId, Product)
+
+    const stock = new Stock({
+        product: product._id,
+        format: format,
+        amount: amount,
+        expireDate: expireDate,
+        isOpen: isOpen === undefined ? false : isOpen,
+        remaining: remaining
+    })
+
+    product.stocks.push(stock._id)
+    await product.save()
+
+    return stock.save()
 }
 
 const updateStock = async ( id: string, { format, expireDate, amount, remaining, isOpen, productId } : UpdateStockProps ) => {
@@ -24,11 +51,7 @@ const updateStock = async ( id: string, { format, expireDate, amount, remaining,
         throw new Error('missing data')
     }
 
-    const product = mongoose.Types.ObjectId.isValid(productId) ? await Product.findById(productId) : undefined
-
-    if (!product) {
-        throw new Error('product not found')
-    }
+    const product = await getEntityById(productId, Product)
 
     const stock = {
         format: format,
@@ -39,13 +62,15 @@ const updateStock = async ( id: string, { format, expireDate, amount, remaining,
         product: product._id
     }
 
-    const updatedStock = mongoose.Types.ObjectId.isValid(id) ? await Stock.findByIdAndUpdate(id, stock, { new: true }) : undefined
+    if (validateObjectId(id)) {
+        const updatedStock= await Stock.findByIdAndUpdate(id, stock, { new: true })
 
-    if (!updatedStock) {
-        throw new Error('stock not found')
+        if (!updatedStock) {
+            throw new Error('stock not found')
+        }
+
+        return updatedStock.populate("product")
     }
-
-    return updatedStock.populate("product")
 }
 
 const deleteStock = async ( id: string ) => {
@@ -65,12 +90,42 @@ const deleteStock = async ( id: string ) => {
     return stock.deleteOne().exec()
 }
 
-const openStock = async (_: string, {  } : OpenStockProps)=> {
+const openStock = async (id: string, expireDate: string)=> {
+    const stock = await getEntityById(id, Stock)?.populate('product')
 
+    if (stock.amount > 0) {
+        const newStock = await createStock(stock.product._id.toString(), {
+            format: stock.format,
+            expireDate: expireDate,
+            amount: 1,
+            isOpen: true
+        })
+
+        const product = stock.product
+
+        if (stock.amount == 1) {
+            product.stocks = product.stocks.filter((x : any) => x._id != stock._id)
+            await stock.deleteOne()
+        } else {
+            stock.amount = stock.amount - 1
+            await stock.save()
+        }
+
+        await product.save()
+
+        return newStock
+    } else {
+        throw new Error("not enough stock")
+    }
+    // Create new stock with the info
+    // Add the stock to the product
+    // Decrease the amount of the stock
+    // Remove it if amount == 0
 }
 
 export {
     getAllStocks,
+    createStock,
     updateStock,
     deleteStock,
     openStock

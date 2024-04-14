@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import {
     createProduct,
-    createProductStock,
     deleteProduct,
     getAllProducts,
     getProductById,
 } from "../services/products";
 import {Error} from "mongoose";
+import {createStock} from "../services/stocks";
 
 type CreateProductBodyParams = {
     name: string,
@@ -37,12 +37,13 @@ export default {
         response.json(products)
     },
     getProduct: async (request : Request, response : Response) => {
-        const product = await getProductById(request.params.id)
-
-        if (product) {
+       try {
+           const product = await getProductById(request.params.id)
             response.json(product)
-        } else {
-            response.status(404).end()
+        } catch (error) {
+           const errorResponse = response.status(400)
+           if (error instanceof  Error) errorResponse.json({ error: error.message })
+           errorResponse.end()
         }
     },
     createProduct: async (request: Request<unknown, unknown, CreateProductBodyParams>, response : Response) => {
@@ -59,7 +60,6 @@ export default {
     },
     updateProduct: async (request : Request<unknown, unknown, UpdateProductBodyParams>, response : Response) => {
         const body = request.body
-        console.log(body)
 
         if (!body) {
             return response.status(400).json({
@@ -88,7 +88,7 @@ export default {
     },
     createProductStock: async (request : Request<{ id: string }, unknown, CreateStockBodyParams>, response : Response) => {
         try {
-            const savedStock = await createProductStock(request.params.id, request.body)
+            const savedStock = await createStock(request.params.id, request.body)
             response.json(savedStock)
         } catch (error) {
             const errorResponse = response.status(400)

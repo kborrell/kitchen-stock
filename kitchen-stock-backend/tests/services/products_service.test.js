@@ -10,8 +10,9 @@ import {
     getProductById
 } from "../../app/services/products";
 import {populateProducts} from "../utils";
+import {createStock} from "../../app/services/stocks";
 
-const initialProducts = [
+const initialData = [
     {
         name: "product1",
         trackOpen: "false",
@@ -28,14 +29,14 @@ const initialProducts = [
     }
 ]
 
-let initialIds = []
+let initialProducts = []
 
 beforeAll(async () => {
     await testDb.connect()
 })
 
 beforeEach(async () => {
-    initialIds = await populateProducts(initialProducts)
+    initialProducts = await populateProducts(initialData)
 })
 
 describe('when there are some products created the service', () => {
@@ -46,17 +47,16 @@ describe('when there are some products created the service', () => {
 
     it('should return the first product with correct data', async () => {
         const products = await getAllProducts()
-        expect(products[0].name).toBe("product1")
+        expect(products[0].name).toBe(initialProducts.find(x => x._id.toString() === products[0]._id.toString()).name)
     });
 
     it('should return a product by id', async () => {
-        const product = await getProductById(initialIds[0])
+        const product = await getProductById(initialProducts[0].id)
         expect(product.name).toBe("product1")
     });
 
     it('should return undefined with an invalid id', async () => {
-        const product = await getProductById("wrongid")
-        expect(product).toBeUndefined()
+        expect (async () => await getProductById("wrongid")).rejects.toThrowError("invalid")
     });
 });
 
@@ -94,47 +94,20 @@ describe('creating a new product', () => {
             trackOpen: false,
             expires: false,
             daysToKeep: 1
-        })).rejects.toThrowError("category")
+        })).rejects.toThrowError("invalid")
     });
 });
 
 describe('deleting a product', () => {
     it('with a valid id succeeds', async () => {
-        await deleteProduct(initialIds[0])
+        await deleteProduct(initialProducts[0].id)
         const products = await Product.find({}).exec()
         expect(products.length).toBe(1)
-        expect(products.find(product => product._id.equals(initialIds[0]))).toBeUndefined()
+        expect(products.find(product => product._id.equals(initialProducts[0].id))).toBeUndefined()
     })
 
     it('with a wrong id throws error', async () => {
-        expect(async () => await deleteProduct("wrongid")).rejects.toThrowError("product")
-    })
-})
-
-describe("creating a stock for a product", () => {
-    it('succeeds with valid data', async () => {
-        await createProductStock(initialIds[0], {
-            format: "units",
-            amount: 1,
-            isOpen: false
-        })
-        const product = await Product.findById(initialIds[0])
-        expect(product.stocks.length).toBe(1)
-    })
-
-    it('throws error with wrong product id', async () => {
-        expect(async () => await createProductStock("wrongid", {
-            format: "units",
-            amount: 1,
-            expireDate: "1970-01-01T00:00:00.000Z"
-        })).rejects.toThrowError("product")
-    })
-
-    it('throws error with missing data', async () => {
-        expect(async () => await createProductStock(initialIds[0], {
-            format: "units",
-            expireDate: "1970-01-01T00:00:00.000Z"
-        })).rejects.toThrowError("data")
+        expect(async () => await deleteProduct("wrongid")).rejects.toThrowError("invalid")
     })
 })
 

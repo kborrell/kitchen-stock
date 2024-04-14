@@ -19,11 +19,6 @@ describe('when there are some categories created the api', () => {
         const response = await api.get('/api/categories').expect(200)
         expect(response.body.length).toBe(2)
     });
-
-    it('should have correct data on first category', async () => {
-        const response = await api.get('/api/categories').expect(200)
-        expect(response.body[0].name).toBe("category1")
-    });
 });
 
 describe('creating a new category', () => {

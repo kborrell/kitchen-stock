@@ -2,6 +2,7 @@ import Category from "../../app/models/category";
 import Product from "../../app/models/product";
 import Stock from "../../app/models/stock";
 import {createProductStock} from "../../app/services/products";
+import {createStock} from "../../app/services/stocks";
 
 export const populateCategories = async () => {
     const initialCategories = [
@@ -43,7 +44,7 @@ export const populateStocks = async (initialProduct, initialStocks) => {
     const category = await (new Category({ name: "category" })).save()
     const product = await (new Product({category: category._id, ...initialProduct})).save()
 
-    const stockPromises = initialStocks.map(stock => createProductStock(product.id, stock))
+    const stockPromises = initialStocks.map(stock => createStock(product.id, stock))
     await Promise.all(stockPromises)
 
     return product._id

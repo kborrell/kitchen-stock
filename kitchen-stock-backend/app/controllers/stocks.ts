@@ -40,7 +40,7 @@ export default {
     },
     openStock: async (request: Request, response: Response) => {
         try {
-            const newStock = await openStock(request.params.id, request.body)
+            const newStock = await openStock(request.params.id, request.body.expireDate)
             response.json(newStock)
         } catch (error) {
             const errorResponse = response.status(400)

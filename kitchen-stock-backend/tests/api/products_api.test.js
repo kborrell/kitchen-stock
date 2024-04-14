@@ -42,8 +42,6 @@ describe('when there are some products created the api', () => {
 
     it('should return the first product with correct data', async () => {
         const response = await api.get('/api/products').expect(200)
-        console.log(products)
-        console.log(response.body)
         expect(response.body[0].name).toBe(products.find(x => x._id.toString() === response.body[0].id).name)
     });
 
@@ -53,7 +51,7 @@ describe('when there are some products created the api', () => {
     });
 
     it('should return error with an invalid id', async () => {
-        await api.get(`/api/products/wrongid`).expect(404)
+        await api.get(`/api/products/wrongid`).expect(400)
     });
 });
 

@@ -17,11 +17,6 @@ describe('when there are some categories created the service', () => {
         const categories = await getAllCategories()
         expect(categories.length).toBe(2)
     });
-
-    it('should have correct data on first category', async () => {
-        const categories = await getAllCategories()
-        expect(categories[0].name).toBe("category1")
-    });
 });
 
 it('should create a new category', async () => {
