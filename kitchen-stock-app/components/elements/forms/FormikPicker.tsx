@@ -1,7 +1,7 @@
 import { useField } from 'formik';
-import {SText} from "../../../nativewindTypes";
 import RNPickerSelect from 'react-native-picker-select';
 import {useEffect} from "react";
+import {Text} from "react-native";
 
 const FormikPicker = ({ name, items, ...props }) => {
     const [field, meta, helpers] = useField(name);
@@ -21,7 +21,7 @@ const FormikPicker = ({ name, items, ...props }) => {
                 items={items}
                 {...props}
             />
-            {showError && <SText className="text-red-800">{meta.error}</SText>}
+            {showError && <Text className="text-red-800">{meta.error}</Text>}
         </>
     );
 };

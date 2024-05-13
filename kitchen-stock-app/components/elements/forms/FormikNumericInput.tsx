@@ -1,6 +1,6 @@
 import { useField } from 'formik';
 import NumericInput from 'react-native-numeric-input'
-import {SText} from "../../../nativewindTypes";
+import {Text} from "react-native";
 
 const FormikNumericInput = ({ name, ...props }) => {
     const [field, meta, helpers] = useField(name);
@@ -13,7 +13,7 @@ const FormikNumericInput = ({ name, ...props }) => {
                 value={field.value}
                 {...props}
             />
-            {showError && <SText className="text-red-800">{meta.error}</SText>}
+            {showError && <Text className="text-red-800">{meta.error}</Text>}
         </>
     );
 };

@@ -7,6 +7,7 @@ import {
     ThemeProvider,
     DefaultTheme,
 } from "@react-navigation/native";
+import "../global.css"
 
 const StackLayout = () => {
     const AppTheme = {

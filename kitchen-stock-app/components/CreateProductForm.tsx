@@ -1,9 +1,8 @@
-import {Pressable, Text} from "react-native";
+import {Pressable, Text, View} from "react-native";
 import FormikTextInput from "./elements/forms/FormikTextInput";
 import FormikPicker from "./elements/forms/FormikPicker";
 import {useGetCategoriesQuery} from "../services/api";
 import FormikCheckboxInput from "./elements/forms/FormikCheckboxInput";
-import {SText, SView} from "../nativewindTypes";
 import FormikNumericInput from "./elements/forms/FormikNumericInput";
 
 const CreateProductForm = ({ onSubmit }) => {
@@ -14,26 +13,26 @@ const CreateProductForm = ({ onSubmit }) => {
 
     return (
         <>
-            <SView>
-                <SText>Nom del producte</SText>
+            <View>
+                <Text>Nom del producte</Text>
                 <FormikTextInput name="name" placeholder="Introdueix nom del producte" />
-            </SView>
-            <SView>
-                <SText>Categoria</SText>
+            </View>
+            <View>
+                <Text>Categoria</Text>
                 <FormikPicker name="categoryId" items={data.map(element => ({label: element.name, value: element.id}))} />
-            </SView>
-            <SView>
-                <SText>Vols fer seguiment dels productes oberts?</SText>
+            </View>
+            <View>
+                <Text>Vols fer seguiment dels productes oberts?</Text>
                 <FormikCheckboxInput name="trackOpen" />
-            </SView>
-            <SView>
-                <SText>El producte te data de caducitat?</SText>
+            </View>
+            <View>
+                <Text>El producte te data de caducitat?</Text>
                 <FormikCheckboxInput name="expires" />
-            </SView>
-            <SView>
-                <SText>Quants dies es pot mantenir després d'obrirlo?</SText>
+            </View>
+            <View>
+                <Text>Quants dies es pot mantenir després d'obrirlo?</Text>
                 <FormikNumericInput name="daysToKeep" minValue={0} />
-            </SView>
+            </View>
             <Pressable onPress={onSubmit}>
                 <Text>Afegir</Text>
             </Pressable>

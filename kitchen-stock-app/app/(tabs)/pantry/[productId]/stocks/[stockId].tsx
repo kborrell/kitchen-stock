@@ -2,11 +2,10 @@ import React from 'react';
 import {router, useLocalSearchParams} from "expo-router";
 import {Product, Stock} from "../../../../../services/types";
 import {useEditStockMutation, useGetProductsQuery, useRemoveStockMutation} from "../../../../../services/api";
-import {SText, SView} from "../../../../../nativewindTypes";
 import AddStockForm from "../../../../../components/AddStockForm";
 import * as yup from "yup";
 import {Formik} from "formik";
-import {Alert, Pressable} from "react-native";
+import {Alert, Pressable, Text, View} from "react-native";
 
 const Page = () => {
     const { productId, stockId } = useLocalSearchParams()
@@ -76,14 +75,14 @@ const Page = () => {
     }
 
     return (
-        <SView>
+        <View>
             <Formik initialValues={initialValues} onSubmit={saveStockHandler} validationSchema={validationSchema}>
                 {({ handleSubmit }) => <AddStockForm onSubmit={handleSubmit} />}
             </Formik>
             <Pressable onPress={askRemoveStockHandler}>
-                <SText>Elimina el stock</SText>
+                <Text>Elimina el stock</Text>
             </Pressable>
-        </SView>
+        </View>
     );
 };
 

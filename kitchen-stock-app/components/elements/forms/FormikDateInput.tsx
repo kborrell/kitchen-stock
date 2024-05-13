@@ -1,6 +1,5 @@
 import { useField } from 'formik';
 import {Text, TextInput} from "react-native";
-import {SText} from "../../../nativewindTypes";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const FormikDateInput = ({ name, ...props }) => {
@@ -14,7 +13,7 @@ const FormikDateInput = ({ name, ...props }) => {
                 value={field.value}
                 {...props}
             />
-            {showError && <SText className="text-red-800">{meta.error}</SText>}
+            {showError && <Text className="text-red-800">{meta.error}</Text>}
         </>
     );
 };

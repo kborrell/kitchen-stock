@@ -1,6 +1,5 @@
 import React from 'react';
-import {SText, SView} from "../../../nativewindTypes";
-import {Pressable} from "react-native";
+import {Pressable, Text, View} from "react-native";
 import {router} from "expo-router";
 import {Stock} from "../../../services/types";
 
@@ -15,16 +14,16 @@ const StockListItem = ({item} : StockListItemProps ) => {
 
     return (
         <Pressable onPress={editHandler}>
-            <SView className="border rounded-md p-2 flex-row my-1">
-                <SView className="grow flex-col gap-1 justify-center">
-                    <SText className="font-theme-medium"> {item.isOpen ? `${item.remaining} restant` : `${item.amount} ${item.format}`}</SText>
+            <View className="border rounded-md p-2 flex-row my-1">
+                <View className="grow flex-col gap-1 justify-center">
+                    <Text className="font-theme-medium"> {item.isOpen ? `${item.remaining} restant` : `${item.amount} ${item.format}`}</Text>
                     {
                         item.expireDate ?
-                            <SText className="font-theme-regular text-xs">Expira el {new Date(item.expireDate).toLocaleDateString()}</SText>
+                            <Text className="font-theme-regular text-xs">Expira el {new Date(item.expireDate).toLocaleDateString()}</Text>
                             : undefined
                     }
-                </SView>
-            </SView>
+                </View>
+            </View>
         </Pressable>
     )
 }
