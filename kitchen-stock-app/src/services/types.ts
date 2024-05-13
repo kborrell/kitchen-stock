@@ -19,6 +19,6 @@ export type Stock = {
     format: string,
     expireDate?: Date,
     amount: number,
+    remaining?: string,
     isOpen: boolean,
-    remaining?: string
 }

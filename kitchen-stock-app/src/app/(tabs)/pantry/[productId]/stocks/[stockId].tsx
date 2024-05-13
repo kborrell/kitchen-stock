@@ -34,6 +34,8 @@ const Page = () => {
             .required("La quantitat es obligatòria"),
         expireDate: yup
             .date(),
+        remaining: yup
+            .string()
     })
 
     const initialValues = {
@@ -77,7 +79,7 @@ const Page = () => {
     return (
         <View>
             <Formik initialValues={initialValues} onSubmit={saveStockHandler} validationSchema={validationSchema}>
-                {({ handleSubmit }) => <AddStockForm onSubmit={handleSubmit} />}
+                {({ handleSubmit }) => <AddStockForm onSubmit={handleSubmit} isOpen={stock.isOpen} />}
             </Formik>
             <Pressable onPress={askRemoveStockHandler}>
                 <Text>Elimina el stock</Text>

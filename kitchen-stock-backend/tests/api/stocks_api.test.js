@@ -117,7 +117,7 @@ describe('opening a stock', () => {
             expireDate: "1970-01-01T00:00:00.000Z"
         })
 
-        const updatedProduct = (await api.get(`/api/products/${stockToOpen.product.id}`)).body
+        const updatedProduct = (await api.get(`/api/products/${stockToOpen.productId}`)).body
         console.log(updatedProduct)
         expect(updatedProduct.stocks).toHaveLength(3)
         const openedStock = updatedProduct.stocks.find(x => x.id === stockToOpen.id)
@@ -133,7 +133,7 @@ describe('opening a stock', () => {
             expireDate: "1970-01-01T00:00:00.000Z"
         })
 
-        const updatedProduct = (await api.get(`/api/products/${stockToOpen.product.id}`)).body
+        const updatedProduct = (await api.get(`/api/products/${stockToOpen.productId}`)).body
         expect(updatedProduct.stocks).toHaveLength(2)
         const openedStock = updatedProduct.stocks.find(x => x.id === stockToOpen.id)
         expect(openedStock).toBeUndefined()

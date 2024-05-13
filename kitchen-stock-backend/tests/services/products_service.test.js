@@ -4,13 +4,11 @@ import testDb from "../test_db"
 import Product from "../../app/models/product";
 import {
     createProduct,
-    createProductStock,
     deleteProduct,
     getAllProducts,
     getProductById
 } from "../../app/services/products";
 import {populateProducts} from "../utils";
-import {createStock} from "../../app/services/stocks";
 
 const initialData = [
     {

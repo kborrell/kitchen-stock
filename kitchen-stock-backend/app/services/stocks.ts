@@ -21,7 +21,7 @@ type CreateStockProps = {
 }
 
 const getAllStocks = async () => {
-    return Stock.find({}).populate("product").exec()
+    return Stock.find({}).exec()
 }
 
 const createStock = async (productId: string, { format, expireDate, amount, remaining, isOpen } : CreateStockProps) => {
@@ -32,7 +32,7 @@ const createStock = async (productId: string, { format, expireDate, amount, rema
     const product = await getEntityById(productId, Product)
 
     const stock = new Stock({
-        product: product._id,
+        productId: product._id,
         format: format,
         amount: amount,
         expireDate: expireDate,
@@ -59,7 +59,7 @@ const updateStock = async ( id: string, { format, expireDate, amount, remaining,
         expireDate: expireDate,
         remaining: remaining,
         isOpen: isOpen,
-        product: product._id
+        productId: product._id
     }
 
     if (validateObjectId(id)) {
@@ -69,7 +69,7 @@ const updateStock = async ( id: string, { format, expireDate, amount, remaining,
             throw new Error('stock not found')
         }
 
-        return updatedStock.populate("product")
+        return updatedStock
     }
 }
 
@@ -80,7 +80,7 @@ const deleteStock = async ( id: string ) => {
         throw new Error('stock not found')
     }
 
-    const product = await Product.findById(stock.product)
+    const product = await Product.findById(stock.productId)
 
     if (product) {
         product.stocks = product.stocks.filter((stockId) => stockId != stock.id)
@@ -91,17 +91,17 @@ const deleteStock = async ( id: string ) => {
 }
 
 const openStock = async (id: string, expireDate: string)=> {
-    const stock = await getEntityById(id, Stock)?.populate('product')
+    const stock = await getEntityById(id, Stock)
 
     if (stock.amount > 0) {
-        const newStock = await createStock(stock.product._id.toString(), {
+        const newStock = await createStock(stock.productId, {
             format: stock.format,
             expireDate: expireDate,
             amount: 1,
             isOpen: true
         })
 
-        const product = stock.product
+        const product = await getEntityById(stock.productId, Product)
 
         if (stock.amount == 1) {
             product.stocks = product.stocks.filter((x : any) => x._id != stock._id)

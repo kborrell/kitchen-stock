@@ -110,7 +110,7 @@ describe('opening a stock', () => {
         const stockToOpen = stocks.find(x => x.amount === 5)
         await openStock(stockToOpen._id.toString(), "1970-01-01T00:00:00.000Z")
 
-        const updatedProduct = await Product.findById(stockToOpen.product).populate('stocks')
+        const updatedProduct = await Product.findById(stockToOpen.productId).populate('stocks')
         expect(updatedProduct.stocks).toHaveLength(3)
         const openedStock = updatedProduct.stocks.find(x => x._id.equals(stockToOpen._id))
         const newStock = updatedProduct.stocks.find(x => x.isOpen)
@@ -123,7 +123,7 @@ describe('opening a stock', () => {
         const stockToOpen = stocks.find(x => x.amount === 1)
         await openStock(stockToOpen._id.toString(), "1970-01-01T00:00:00.000Z")
 
-        const updatedProduct = await Product.findById(stockToOpen.product).populate('stocks')
+        const updatedProduct = await Product.findById(stockToOpen.productId).populate('stocks')
         expect(updatedProduct.stocks).toHaveLength(2)
         const openedStock = updatedProduct.stocks.find(x => x._id.equals(stockToOpen._id))
         expect(openedStock).toBeUndefined()

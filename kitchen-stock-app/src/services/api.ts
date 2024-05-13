@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import useEnvironmentVar from "../hooks/useEnvironmentVar";
 import type {Product, Category, Stock} from "./types"
 import {BaseQueryArg} from "@reduxjs/toolkit/dist/query/baseQueryTypes";
+import StockId from "../app/(tabs)/pantry/[productId]/stocks/[stockId]";
 
 const baseUrl = useEnvironmentVar("backendUrl")
 console.log(baseUrl)
@@ -21,6 +22,11 @@ type AddStockArgs = {
     amount: Number,
 }
 
+type OpenStockArgs = {
+    id: String
+    expireDate: Date,
+}
+
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: `${baseUrl}/api/`}),
@@ -28,7 +34,7 @@ export const api = createApi({
     endpoints: (builder) => ({
         getProducts: builder.query<Product[], void>({
             query: () => `products`,
-            providesTags: ['Products']
+            providesTags: ['Products'],
         }),
         getCategories: builder.query<Category[], void>({
             query: () => 'categories'
@@ -78,8 +84,16 @@ export const api = createApi({
                 method: 'DELETE'
             }),
             invalidatesTags: ['Products']
+        }),
+        openStock: builder.mutation<Stock, OpenStockArgs>({
+            query: (args: OpenStockArgs) => ({
+                url: `stocks/${args.id}`,
+                method: 'POST',
+                body: { expireDate: args.expireDate }
+            }),
+            invalidatesTags: ['Products']
         })
-    })
+    }),
 })
 
 export const {
@@ -90,5 +104,6 @@ export const {
     useRemoveProductMutation,
     useAddStockMutation,
     useEditStockMutation,
-    useRemoveStockMutation
+    useRemoveStockMutation,
+    useOpenStockMutation
 } = api
